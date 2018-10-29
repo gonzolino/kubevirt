@@ -46,6 +46,13 @@ func (CloudInitNoCloudSource) SwaggerDoc() map[string]string {
 	}
 }
 
+func (Ignition) SwaggerDoc() map[string]string {
+	return map[string]string{
+		"":     "Represents an ignition data source.\n+k8s:openapi-gen=true",
+		"data": "Data contains Ignition inline data.\n+ optional",
+	}
+}
+
 func (DomainSpec) SwaggerDoc() map[string]string {
 	return map[string]string{
 		"resources":       "Resources describes the Compute Resources required by this vmi.",
@@ -57,6 +64,7 @@ func (DomainSpec) SwaggerDoc() map[string]string {
 		"features":        "Features like acpi, apic, hyperv, smm.\n+optional",
 		"devices":         "Devices allows adding disks, network interfaces, ...",
 		"ioThreadsPolicy": "Controls whether or not disks will share IOThreads.\nOmitting IOThreadsPolicy disables use of IOThreads.\nOne of: shared, auto\n+optional",
+		"ignition":        "Ignition represents an ignition data.\nThe Ignition data will be added as a disk to the vmi. Ignition support is required inside the guest.\n+optional",
 	}
 }
 

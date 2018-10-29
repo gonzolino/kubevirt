@@ -63,6 +63,7 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 		"kubevirt.io/kubevirt/pkg/api/v1.Hugepages":                                 schema_kubevirt_pkg_api_v1_Hugepages(ref),
 		"kubevirt.io/kubevirt/pkg/api/v1.HypervTimer":                               schema_kubevirt_pkg_api_v1_HypervTimer(ref),
 		"kubevirt.io/kubevirt/pkg/api/v1.I6300ESBWatchdog":                          schema_kubevirt_pkg_api_v1_I6300ESBWatchdog(ref),
+		"kubevirt.io/kubevirt/pkg/api/v1.Ignition":                                  schema_kubevirt_pkg_api_v1_Ignition(ref),
 		"kubevirt.io/kubevirt/pkg/api/v1.Interface":                                 schema_kubevirt_pkg_api_v1_Interface(ref),
 		"kubevirt.io/kubevirt/pkg/api/v1.InterfaceBindingMethod":                    schema_kubevirt_pkg_api_v1_InterfaceBindingMethod(ref),
 		"kubevirt.io/kubevirt/pkg/api/v1.InterfaceBridge":                           schema_kubevirt_pkg_api_v1_InterfaceBridge(ref),
@@ -808,12 +809,18 @@ func schema_kubevirt_pkg_api_v1_DomainSpec(ref common.ReferenceCallback) common.
 							Format:      "",
 						},
 					},
+					"ignition": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Ignition represents an ignition data. The Ignition data will be added as a disk to the vmi. Ignition support is required inside the guest.",
+							Ref:         ref("kubevirt.io/kubevirt/pkg/api/v1.Ignition"),
+						},
+					},
 				},
 				Required: []string{"devices"},
 			},
 		},
 		Dependencies: []string{
-			"kubevirt.io/kubevirt/pkg/api/v1.CPU", "kubevirt.io/kubevirt/pkg/api/v1.Clock", "kubevirt.io/kubevirt/pkg/api/v1.Devices", "kubevirt.io/kubevirt/pkg/api/v1.Features", "kubevirt.io/kubevirt/pkg/api/v1.Firmware", "kubevirt.io/kubevirt/pkg/api/v1.Machine", "kubevirt.io/kubevirt/pkg/api/v1.Memory", "kubevirt.io/kubevirt/pkg/api/v1.ResourceRequirements"},
+			"kubevirt.io/kubevirt/pkg/api/v1.CPU", "kubevirt.io/kubevirt/pkg/api/v1.Clock", "kubevirt.io/kubevirt/pkg/api/v1.Devices", "kubevirt.io/kubevirt/pkg/api/v1.Features", "kubevirt.io/kubevirt/pkg/api/v1.Firmware", "kubevirt.io/kubevirt/pkg/api/v1.Ignition", "kubevirt.io/kubevirt/pkg/api/v1.Machine", "kubevirt.io/kubevirt/pkg/api/v1.Memory", "kubevirt.io/kubevirt/pkg/api/v1.ResourceRequirements"},
 	}
 }
 
@@ -1240,6 +1247,26 @@ func schema_kubevirt_pkg_api_v1_I6300ESBWatchdog(ref common.ReferenceCallback) c
 					"action": {
 						SchemaProps: spec.SchemaProps{
 							Description: "The action to take. Valid values are poweroff, reset, shutdown. Defaults to reset.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+			},
+		},
+		Dependencies: []string{},
+	}
+}
+
+func schema_kubevirt_pkg_api_v1_Ignition(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "Represents an ignition data source.",
+				Properties: map[string]spec.Schema{
+					"data": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Data contains Ignition inline data.",
 							Type:        []string{"string"},
 							Format:      "",
 						},
@@ -2910,12 +2937,18 @@ func schema_kubevirt_pkg_api_v1_VirtualMachineInstanceSpec(ref common.ReferenceC
 							Ref:         ref("k8s.io/api/core/v1.PodDNSConfig"),
 						},
 					},
+					"ignition": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Ignition represents an ignition data. The Ignition data will be added as a disk to the vmi. Ignition support is required inside the guest.",
+							Ref:         ref("kubevirt.io/kubevirt/pkg/api/v1.Ignition"),
+						},
+					},
 				},
 				Required: []string{"domain"},
 			},
 		},
 		Dependencies: []string{
-			"k8s.io/api/core/v1.Affinity", "k8s.io/api/core/v1.PodDNSConfig", "k8s.io/api/core/v1.Toleration", "kubevirt.io/kubevirt/pkg/api/v1.DomainSpec", "kubevirt.io/kubevirt/pkg/api/v1.Network", "kubevirt.io/kubevirt/pkg/api/v1.Probe", "kubevirt.io/kubevirt/pkg/api/v1.Volume"},
+			"k8s.io/api/core/v1.Affinity", "k8s.io/api/core/v1.PodDNSConfig", "k8s.io/api/core/v1.Toleration", "kubevirt.io/kubevirt/pkg/api/v1.DomainSpec", "kubevirt.io/kubevirt/pkg/api/v1.Ignition", "kubevirt.io/kubevirt/pkg/api/v1.Network", "kubevirt.io/kubevirt/pkg/api/v1.Probe", "kubevirt.io/kubevirt/pkg/api/v1.Volume"},
 	}
 }
 

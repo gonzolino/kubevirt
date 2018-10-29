@@ -115,6 +115,14 @@ type CloudInitNoCloudSource struct {
 	NetworkData string `json:"networkData,omitempty"`
 }
 
+// Represents an ignition data source.
+// +k8s:openapi-gen=true
+type Ignition struct {
+	// Data contains Ignition inline data.
+	// + optional
+	Data string `json:"data,omitempty"`
+}
+
 // ---
 // +k8s:openapi-gen=true
 type DomainSpec struct {
@@ -145,6 +153,10 @@ type DomainSpec struct {
 	// One of: shared, auto
 	// +optional
 	IOThreadsPolicy *IOThreadsPolicy `json:"ioThreadsPolicy,omitempty"`
+	// Ignition represents an ignition data.
+	// The Ignition data will be added as a disk to the vmi. Ignition support is required inside the guest.
+	// +optional
+	Ignition *Ignition `json:"ignition,omitempty"`
 }
 
 // Represents the firmware blob used to assist in the domain creation process.

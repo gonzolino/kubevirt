@@ -4388,6 +4388,10 @@
       "description": "Firmware.\n+optional",
       "$ref": "#/definitions/v1.Firmware"
      },
+     "ignition": {
+      "description": "Ignition represents an ignition data.\nThe Ignition data will be added as a disk to the vmi. Ignition support is required inside the guest.\n+optional",
+      "$ref": "#/definitions/v1.Ignition"
+     },
      "ioThreadsPolicy": {
       "description": "Controls whether or not disks will share IOThreads.\nOmitting IOThreadsPolicy disables use of IOThreads.\nOne of: shared, auto\n+optional",
       "$ref": "#/definitions/v1.IOThreadsPolicy"
@@ -4691,6 +4695,15 @@
     }
    },
    "v1.IOThreadsPolicy": {},
+   "v1.Ignition": {
+    "description": "Represents an ignition data source.\n+k8s:openapi-gen=true",
+    "properties": {
+     "data": {
+      "description": "Data contains Ignition inline data.\n+ optional",
+      "type": "string"
+     }
+    }
+   },
    "v1.Initializer": {
     "description": "Initializer is information about an initializer that has not yet completed.",
     "required": [
@@ -6119,6 +6132,10 @@
      "hostname": {
       "description": "Specifies the hostname of the vmi\nIf not specified, the hostname will be set to the name of the vmi, if dhcp or cloud-init is configured properly.\n+optional",
       "type": "string"
+     },
+     "ignition": {
+      "description": "Ignition represents an ignition data.\nThe Ignition data will be added as a disk to the vmi. Ignition support is required inside the guest.\n+optional",
+      "$ref": "#/definitions/v1.Ignition"
      },
      "livenessProbe": {
       "description": "Periodic probe of VirtualMachineInstance liveness.\nVirtualmachineInstances will be stopped if the probe fails.\nCannot be updated.\nMore info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes\n+optional",

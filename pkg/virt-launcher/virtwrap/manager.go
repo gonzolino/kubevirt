@@ -47,6 +47,7 @@ import (
 	ephemeraldisk "kubevirt.io/kubevirt/pkg/ephemeral-disk"
 	"kubevirt.io/kubevirt/pkg/hooks"
 	hostdisk "kubevirt.io/kubevirt/pkg/host-disk"
+	"kubevirt.io/kubevirt/pkg/ignition"
 	"kubevirt.io/kubevirt/pkg/log"
 	"kubevirt.io/kubevirt/pkg/util/net/dns"
 	migrationproxy "kubevirt.io/kubevirt/pkg/virt-handler/migration-proxy"
@@ -494,6 +495,16 @@ func (l *LibvirtDomainManager) preStartHook(vmi *v1.VirtualMachineInstance, doma
 		err := cloudinit.GenerateLocalData(vmi.Name, hostname, vmi.Namespace, cloudInitData)
 		if err != nil {
 			return domain, fmt.Errorf("generating local cloud-init data failed: %v", err)
+		}
+	}
+
+	// generate ignition data
+	ignitionData := ignition.GetIgnitionSource(vmi)
+	if ignitionData != nil {
+
+		err := ignition.GenerateIgnitionLocalData(vmi, vmi.Namespace)
+		if err != nil {
+			return domain, err
 		}
 	}
 

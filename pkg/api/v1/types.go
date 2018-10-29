@@ -198,6 +198,10 @@ type VirtualMachineInstanceSpec struct {
 	// configuration based on DNSPolicy.
 	// +optional
 	DNSConfig *k8sv1.PodDNSConfig `json:"dnsConfig,omitempty" protobuf:"bytes,26,opt,name=dnsConfig"`
+	// Ignition represents an ignition data.
+	// The Ignition data will be added as a disk to the vmi. Ignition support is required inside the guest.
+	// +optional
+	Ignition *Ignition `json:"ignition,omitempty"`
 }
 
 // VirtualMachineInstanceStatus represents information about the status of a VirtualMachineInstance. Status may trail the actual
